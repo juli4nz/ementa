@@ -1,13 +1,21 @@
 <template>
   <div class="section_list">
-    <article
+    <router-link
       v-for="(topic, index) in topics"
       :key="'topic' + index"
-      @click="setTopicIndex(index)"
       :style="{ backgroundImage: `url(${topic.image.url})` }"
+      tag="article"
+      :to="{ 
+        name:`detail`, 
+        params: {
+          id,
+          slug,
+          topic_id : index  
+        }
+      }"
     >
       <h2>{{ topic.name }}</h2>
-    </article>
+    </router-link>
   </div>
 </template>
 
@@ -15,12 +23,14 @@
 export default {
   props: ["topics"],
   data: () => {
-    return {};
+    return {
+      id: "",
+      slug: ""
+    };
   },
-  methods: {
-    setTopicIndex(index) {
-      this.$emit("setTopicIndex", index);
-    }
+  created() {
+    this.id = this.$route.params.id;
+    this.slug = this.$route.params.slug;
   }
 };
 </script>
@@ -37,7 +47,7 @@ export default {
     height: 150px;
     background-color: #fefefe;
     background-size: cover;
-    text-align: center;
+    text-align: left;
     border-radius: 5px;
     padding: 15px;
     cursor: pointer;
@@ -50,16 +60,16 @@ export default {
       font-weight: 300;
       font-size: 1rem;
       color: #fff;
-      background: rgba($color: #000000, $alpha: 0.5);
-      border-radius: 20px;
       padding: 8px;
-      top: 50%;
-      left: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-      -o-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgb(0, 0, 0);
+      background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0) 100%
+      );
     }
     img {
       float: right;
