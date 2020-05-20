@@ -1,19 +1,15 @@
 <template>
-  <div class="detail_bg">
-    <div class="detail_view" v-if="show">
-      <div v-if="item" class="data">
-        <div class="header">
+  <div class="section_content">
+    <div class="section_detail" v-if="loaded">
+      <div v-if="item" class="section_item">
+        <div class="detail_header">
           <h2>{{ item.name }}</h2>
         </div>
-        <div class="content">
+        <div class="detail_list">
           <div class="measures_container" v-if="hasMeasures">
             <div class="measures_dummy"></div>
             <ul class="measures">
-              <li
-                v-for="(measure, index) in item.measures"
-                :key="'scales' + index"
-                class="measure"
-              >
+              <li v-for="(measure, index) in item.measures" :key="'scales' + index" class="measure">
                 <span>{{ measure.name }}</span>
               </li>
             </ul>
@@ -29,11 +25,7 @@
                 <p>{{ plate.description }}</p>
               </div>
               <ul class="plate_prices">
-                <li
-                  v-for="(price, index) in plate.prices"
-                  :key="'price' + index"
-                  class="price"
-                >
+                <li v-for="(price, index) in plate.prices" :key="'price' + index" class="price">
                   <span>{{ price.price }}</span>
                   <span v-if="price.price !== ''" class="price_symbol">€</span>
                 </li>
@@ -44,7 +36,7 @@
       </div>
       <h2 v-else>Nenhum prato encontrado</h2>
       <button class="close" @click="closeDetail">
-        <i class="far fa-times-circle"></i>
+        <i class="fas fa-arrow-left"></i>
       </button>
     </div>
     <i v-else class="fas fa-spinner fa-spin"></i>
@@ -56,7 +48,7 @@ export default {
   props: ["topic"],
   data: () => {
     return {
-      show: false,
+      loaded: false,
       item: {},
       hasMeasures: false
     };
@@ -64,7 +56,7 @@ export default {
   methods: {
     fetchData() {
       this.item = this.topic;
-      this.show = true;
+      this.loaded = true;
     },
     closeDetail() {
       this.$emit("closeDetail");
@@ -78,36 +70,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.detail_bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 10px;
-  background-size: cover;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.85)
-  );
-  .detail_view {
+.section_content {
+  margin-top: 160px;
+  .section_detail {
     position: relative;
-    top: 165px;
     width: 100%;
     min-height: calc(100vh - 185px);
     padding: 15px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-
-    .data {
+    .section_item {
       width: 100%;
       margin-bottom: 40px;
-      .header {
+      .detail_header {
         margin-bottom: 25px;
+        h2 {
+          margin-top: 10px;
+        }
       }
-      .content {
+      .detail_list {
         .measures_container {
           display: flex;
           .measures_dummy,
@@ -122,8 +104,6 @@ export default {
             li {
               text-transform: uppercase;
               font-size: 0.8rem;
-              font-family: "Rubik";
-              font-weight: 300;
               letter-spacing: 3px;
               width: 50%;
               text-align: right;
@@ -147,8 +127,6 @@ export default {
                 color: rgb(99, 100, 68);
               }
               p {
-                font-family: "Rubik";
-                font-weight: 300;
                 color: #888;
                 margin: 0 0 5px;
               }
@@ -159,6 +137,8 @@ export default {
               padding: 0;
               margin: 0;
               li {
+                font-family: "Prata";
+                font-weight: 400;
                 color: #000;
                 width: 50%;
                 text-align: right;
@@ -175,27 +155,23 @@ export default {
         }
       }
     }
-
-    .close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      outline: none;
-      border: none;
-      border-radius: 50px;
-      background: none;
-      padding: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      font-family: "Rubik";
-      font-weight: 300;
-    }
   }
-
-  i {
-    font-size: 2rem;
-    color: #efefef;
+  .close {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    outline: none;
+    border: none;
+    border-radius: 50px;
+    background: rgba($color: #000000, $alpha: 0.5);
+    padding: 8px 15px;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    i {
+      font-size: 1rem;
+      color: #efefef;
+    }
   }
 }
 </style>

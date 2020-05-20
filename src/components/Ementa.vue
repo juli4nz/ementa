@@ -1,11 +1,14 @@
 <template>
   <div id="ementa" class="wrapper">
-    <div class="fixed_bg" :style="{ backgroundImage: `url(${this.bg_image_url})`}">
-      <div class="section_image" :style="{ backgroundImage: `url(${cur_image_url})` }"></div>
+    <div
+      class="section_bg"
+      :style="{ backgroundImage: `url(${this.bg_image_url})`, opacity: cur_image_opacity}"
+    >
+      <div class="header_image" :style="{ backgroundImage: `url(${cur_image_url})`}"></div>
     </div>
 
     <TopicDetail v-if="show_detail" :topic="topic" @closeDetail="closeDetail" />
-    <div v-else class="content">
+    <div v-else class="section_content">
       <RestaurantHeader :info="info" />
       <TopicList :topics="topics" @setTopicIndex="setTopicIndex" />
     </div>
@@ -21,13 +24,15 @@ import bg_image_url from "@/assets/bg.png";
 export default {
   data: () => {
     return {
-      api_url: "http://demo.agencydima.com/ementa/wp-json/ementas/v1/ementa",
+      api_url: "http://em.agencydima.com/main/wp-json/acf/v3/ementa",
+      id: "",
       info: {
         name: "",
-        description: "",
+        location: "",
         image_url: ""
       },
       cur_image_url: "",
+      cur_image_opacity: 1,
       bg_image_url: bg_image_url,
       topics: [],
       show_detail: false
@@ -47,11 +52,12 @@ export default {
         })
         .then(data => {
           data.forEach(ementa => {
-            this.info.name = ementa.post_title;
-            this.info.description = ementa.post_content;
-            this.info.image_url = ementa.featured_image_url;
-            this.cur_image_url = this.info.image_url;
-            let topics = ementa.acf.topics;
+            this.id = ementa.id;
+            let acf = ementa.acf;
+            this.info.name = acf.restaurant_name;
+            this.info.location = acf.restaurant_location;
+            this.info.image_url = this.cur_image_url = acf.restaurant_image.url;
+            let topics = acf.topics;
             topics.forEach(topic => {
               this.topics.push(topic);
             });
@@ -70,22 +76,37 @@ export default {
       this.topic = "";
       this.cur_image_url = this.info.image_url;
       this.show_detail = false;
+    },
+    handleScroll() {
+      let a =
+        window.pageYOffset + 165 || document.documentElement.scrollTop + 165;
+      let b =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      let c = a / b;
+
+      if (a < 0) {
+        return;
+      }
+      //this.cur_image_opacity = c;
+      console.log(a + " : " + b + " : " + c);
     }
   },
   created() {
     this.fetchData();
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
   }
 };
 </script>
 
 <style scoped lang="scss">
-@import url("https://fonts.googleapis.com/css?family=Prata");
-@import url("https://fonts.googleapis.com/css?family=Rubik");
 .wrapper {
   padding: 10px;
   font-size: 1rem;
-  font-weight: 400;
-  .fixed_bg {
+  .section_bg {
     position: fixed;
     top: 0;
     right: 0;
@@ -93,7 +114,7 @@ export default {
     bottom: 0;
     min-height: calc(100vh - 20px);
     z-index: -1;
-    .section_image {
+    .header_image {
       width: calc(100% + 20px);
       margin-left: -10px;
       margin-top: -10px;
@@ -102,11 +123,11 @@ export default {
       background-size: cover;
     }
   }
-  .content {
-    margin-top: 175px;
+  .section_content {
+    margin-top: 160px;
+    h1 {
+      color: #292929;
+    }
   }
-}
-h1 {
-  color: #292929;
 }
 </style>

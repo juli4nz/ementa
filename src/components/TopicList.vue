@@ -6,7 +6,6 @@
       @click="setTopicIndex(index)"
       :style="{ backgroundImage: `url(${topic.image.url})` }"
     >
-      <!-- <img :src="topic.image.url" width="70" height="70" alt /> -->
       <h2>{{ topic.name }}</h2>
     </article>
   </div>
@@ -30,7 +29,7 @@ export default {
 .section_list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+  gap: 5px;
   width: 100%;
   article {
     position: relative;
@@ -48,7 +47,7 @@ export default {
       position: absolute;
       margin: 0;
       font-family: "Rubik";
-      font-weight: 400;
+      font-weight: 300;
       font-size: 1rem;
       color: #fff;
       background: rgba($color: #000000, $alpha: 0.5);
