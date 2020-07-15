@@ -1,23 +1,13 @@
 <template>
   <div id="app">
-    <div class="section_bg" :style="{ backgroundImage: `url(${bg_image_url})`}"></div>
     <transition name="fade">
-      <router-view></router-view>
+      <router-view />
     </transition>
   </div>
 </template>
 
 <script>
-import bg_image_url from "@/assets/bg.png";
-
-export default {
-  data: () => {
-    return {
-      bg_image_url: bg_image_url
-    };
-  },
-  methods: {}
-};
+export default {};
 </script>
 
 <style lang="scss">
@@ -55,16 +45,6 @@ p {
   font-weight: 300;
 }
 
-.section_bg {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  min-height: calc(100vh - 20px);
-  z-index: -1;
-}
-
 .slide-fade-up-enter-active {
   transition: all 0.5s ease-out;
 }
@@ -86,6 +66,14 @@ p {
 }
 .slide-fade-left-enter {
   transform: translateX(50px);
+  opacity: 0;
+}
+
+.slide-fade-right-enter-active {
+  transition: all 0.5s ease-out;
+}
+.slide-fade-right-enter {
+  transform: translateX(-50px);
   opacity: 0;
 }
 

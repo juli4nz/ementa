@@ -1,37 +1,48 @@
 <template>
-  <div class="section_image">
-    <div class="header_image" :style="{ backgroundImage: `url(${url})`, opacity: opacity}">
+  <div class="section_image" :style="section_styles">
+    <div class="header_image" :style="header_styles">
       <div class="fx"></div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["url"],
+  props: ["styles"],
   data: () => {
     return {
       opacity: 1
     };
   },
   methods: {
-    handleScroll() {
+    handle_scroll() {
       let scroll_pos = window.pageYOffset || document.documentElement.scrollTop;
-      let offset = 160;
+      let offset = this.styles.size.height - 40;
       let scroll_rel = scroll_pos / offset;
       let opacity = 1 - scroll_rel;
 
-      if (scroll_pos < 0) {
-        return;
-      }
+      if (scroll_pos < 0) return;
 
       this.opacity = opacity;
     }
   },
+  computed: {
+    header_styles() {
+      return {
+        ...{ backgroundImage: "url(" + this.styles.image + ")" },
+        ...{ opacity: this.opacity }
+      };
+    },
+    section_styles() {
+      return {
+        ...{ height: this.styles.size.height + "px" }
+      };
+    }
+  },
   created() {
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener("scroll", this.handle_scroll);
   },
   destroyed() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener("scroll", this.handle_scroll);
   }
 };
 </script>
@@ -43,6 +54,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 0;
   .header_image {
     width: 100%;
     height: 100%;
