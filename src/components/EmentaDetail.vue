@@ -10,7 +10,7 @@
         <ul class="measures">
           <li
             v-for="(measure, index) in topics.single.content.measures"
-            :key="'scales' + index"
+            :key="index + 'measure'"
             class="measure"
           >
             <span>{{ measure.name }}</span>
@@ -21,7 +21,7 @@
         <div v-if="topics.single.content.plates">
           <div
             v-for="(plate, index) in topics.single.content.plates"
-            :key="'plate' + index"
+            :key="index + 'plate'"
             class="item_container"
           >
             <div class="item_image" v-if="plate.image">
@@ -33,11 +33,8 @@
               <h3>{{ plate.name }}</h3>
               <p>{{ plate.description }}</p>
             </div>
-            <ul
-              class="item_prices"
-              :class="{ 'single': !has_measures && plate.prices.length == 1 }"
-            >
-              <li v-for="(price, index) in plate.prices" :key="'price' + index" class="price">
+            <ul class="item_prices" :class="{ single: !has_measures && plate.prices.length == 1 }">
+              <li v-for="(price, index) in plate.prices" :key="index + 'price'" class="price">
                 <span v-if="price.price !== ''">{{ Number(price.price).toFixed(2) }}</span>
                 <span v-if="price.price !== ''" class="price_symbol">€</span>
               </li>
@@ -47,7 +44,7 @@
         <div v-else>
           <div
             v-for="(drink, index) in topics.single.content.drinks"
-            :key="'drink' + index"
+            :key="index + 'drink'"
             class="item_container"
           >
             <div class="item_title">
@@ -55,7 +52,7 @@
               <p>{{ drink.description }}</p>
             </div>
             <ul class="item_prices">
-              <li v-for="(price, index) in drink.prices" :key="'price' + index" class="price">
+              <li v-for="(price, index) in drink.prices" :key="index + 'price'" class="price">
                 <span v-if="price.price !== ''">{{ Number(price.price).toFixed(2) }}</span>
                 <span v-if="price.price !== ''" class="price_symbol">€</span>
               </li>
@@ -120,9 +117,9 @@ $item_image_pr: 10px;
       padding: 0;
       li {
         text-transform: uppercase;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         letter-spacing: 3px;
-        flex: 1 1 auto;
+        flex: 1 1 50%;
         text-align: right;
         padding-left: 10px;
         &:first-child {
@@ -142,6 +139,7 @@ $item_image_pr: 10px;
           margin: 5px 0;
           padding: 0;
           color: rgb(99, 100, 68);
+          font-size: 1.1rem;
         }
         p {
           color: #888;
@@ -162,11 +160,11 @@ $item_image_pr: 10px;
           font-family: "Prata";
           font-weight: 400;
           color: #000;
-          flex: 1 1 auto;
+          flex: 1 1 50%;
           text-align: right;
           padding-left: 10px;
           padding-top: 5px;
-          font-size: 1.15rem;
+          font-size: 1rem;
           .price_symbol {
             font-size: 0.7rem;
             margin-left: 2px;

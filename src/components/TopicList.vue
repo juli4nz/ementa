@@ -25,7 +25,7 @@
     <!-- Start Catalog -->
     <article
       v-for="(cat, index) in catalog"
-      :key="index+'cat'"
+      :key="index + 'cat'"
       :style="get_style(cat)"
       @click="gotoCatalog(cat, index)"
     >
