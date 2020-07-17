@@ -2,10 +2,10 @@
   <div>
     <div class="detail_header">
       <h2>{{ topics.single.name }}</h2>
-      <!--<div class="breadcrumb">{{ restaurant.breadcrumb }}</div>-->
     </div>
     <div class="detail_list">
-      <div class="detail_header" v-if="has_measures">
+      <!-- Header -->
+      <div class="list_header" v-if="has_measures">
         <div class="header_dummy"></div>
         <ul class="measures">
           <li
@@ -17,22 +17,30 @@
           </li>
         </ul>
       </div>
+      <!-- List -->
       <div class="item_list">
         <div v-if="topics.single.content.plates">
+          <!-- Plates -->
           <div
             v-for="(plate, index) in topics.single.content.plates"
             :key="index + 'plate'"
             class="item_container"
+            @click="display_modal(plate)"
           >
+            <!-- Plate Image -->
             <div class="item_image" v-if="plate.image">
               <div class="image_wrapper">
                 <img :src="plate.image.url" :alt="plate.name" class="image_content" />
               </div>
             </div>
+
+            <!-- Plate Title -->
             <div class="item_title">
               <h3>{{ plate.name }}</h3>
               <p>{{ plate.description }}</p>
             </div>
+
+            <!-- Plate Prices -->
             <ul class="item_prices" :class="{ single: !has_measures && plate.prices.length == 1 }">
               <li v-for="(price, index) in plate.prices" :key="index + 'price'" class="price">
                 <span v-if="price.price !== ''">{{ Number(price.price).toFixed(2) }}</span>
@@ -42,16 +50,28 @@
           </div>
         </div>
         <div v-else>
+          <!-- Drinks -->
           <div
             v-for="(drink, index) in topics.single.content.drinks"
             :key="index + 'drink'"
             class="item_container"
+            @click="display_modal(drink)"
           >
+            <!-- Drink Image -->
+            <div class="item_image" v-if="drink.image">
+              <div class="image_wrapper">
+                <img :src="drink.image.url" :alt="drink.name" class="image_content" />
+              </div>
+            </div>
+
+            <!-- Drink Title -->
             <div class="item_title">
               <h3>{{ drink.name }}</h3>
               <p>{{ drink.description }}</p>
             </div>
-            <ul class="item_prices">
+
+            <!-- Drink Prices -->
+            <ul class="item_prices" :class="{ single: !has_measures && drink.prices.length == 1 }">
               <li v-for="(price, index) in drink.prices" :key="index + 'price'" class="price">
                 <span v-if="price.price !== ''">{{ Number(price.price).toFixed(2) }}</span>
                 <span v-if="price.price !== ''" class="price_symbol">€</span>
@@ -60,17 +80,45 @@
           </div>
         </div>
       </div>
+      <!-- END List -->
     </div>
+    <modal v-if="show_modal" @close="show_modal = false" class="item_modal">
+      <img slot="header_image" :src="item.image.url" :alt="item.name" class="modal_image" />
+      <h3 slot="title" class="modal_title">{{ item.name }}</h3>
+      <ul class="modal_prices" slot="body">
+        <li v-for="(price, index) in item.prices" :key="index + 'price'">
+          <span v-if="price.price !== ''">{{ Number(price.price).toFixed(2) }}</span>
+          <span v-if="price.price !== ''" class="price_symbol">€</span>
+        </li>
+      </ul>
+      <p slot="body">{{ item.description }}</p>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from "./Modal.vue";
 export default {
   props: ["topics"],
-  data: () => {
-    return {};
+  components: {
+    Modal
   },
-  methods: {},
+  data: () => {
+    return {
+      show_modal: false,
+      item: ""
+    };
+  },
+  methods: {
+    display_modal(item) {
+      if (item.image) {
+        this.show_modal = true;
+        this.item = item;
+      } else {
+        return null;
+      }
+    }
+  },
   computed: {
     has_measures() {
       const item = this.topics.single.content;
@@ -105,7 +153,7 @@ $item_image_pr: 10px;
   }
 }
 .detail_list {
-  .detail_header {
+  .list_header {
     display: flex;
     .header_dummy {
       flex: 1 1 auto;
@@ -118,7 +166,7 @@ $item_image_pr: 10px;
       li {
         text-transform: uppercase;
         font-size: 0.7rem;
-        letter-spacing: 3px;
+        letter-spacing: 1px;
         flex: 1 1 50%;
         text-align: right;
         padding-left: 10px;
@@ -188,21 +236,30 @@ $item_image_pr: 10px;
     }
   }
 }
-.close {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  outline: none;
-  border: none;
-  border-radius: 50px;
-  background: rgba($color: #000000, $alpha: 0.5);
-  padding: 8px 15px;
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
-  i {
-    font-size: 1rem;
-    color: #efefef;
+.item_modal {
+  .modal_image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .modal_title {
+    margin-top: 0;
+    color: rgb(99, 100, 68);
+    font-size: 1.3rem;
+  }
+  .modal_prices {
+    padding: 0;
+    margin: 0;
+    li {
+      font-family: "Prata";
+      font-weight: 400;
+      color: #000;
+      font-size: 1rem;
+      .price_symbol {
+        font-size: 0.8rem;
+        margin-left: 3px;
+      }
+    }
   }
 }
 </style>

@@ -1,0 +1,115 @@
+<template>
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-header">
+            <button class="modal-close" @click="$emit('close')">
+              <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header-image">
+              <slot name="header_image"></slot>
+            </div>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-body-title">
+              <slot name="title">default header</slot>
+            </div>
+            <slot name="body"></slot>
+          </div>
+
+          <div class="modal-footer">
+            <slot name="footer"></slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style lang="scss" scoped>
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: calc(100% - 80px);
+  margin: 0px auto;
+  padding: 0;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.modal-header {
+  position: relative;
+  .modal-header-image {
+    width: 100%;
+  }
+}
+
+.modal-body {
+  padding: 15px;
+  margin-bottom: 5px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 99999;
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  background: rgba($color: #000000, $alpha: 0.5);
+  padding: 2px 6px;
+  cursor: pointer;
+  i {
+    font-size: 1.5rem;
+    color: #efefef;
+  }
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter-active {
+  opacity: 1;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter-active .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+</style>

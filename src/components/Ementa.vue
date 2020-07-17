@@ -464,8 +464,6 @@ export default {
     border-radius: 50px;
     background: rgba($color: #000000, $alpha: 0.5);
     padding: 8px 15px;
-    font-size: 1rem;
-    line-height: 1;
     z-index: 1;
     cursor: pointer;
     i {
