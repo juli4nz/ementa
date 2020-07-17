@@ -412,9 +412,15 @@ export default {
       }
     }
   },
+  mounted() {
+    document.addEventListener("backbutton", this.go_back);
+  },
   created() {
     this.reset();
     this.fetch_data();
+  },
+  destroyed() {
+    document.removeEventListener("backbutton", this.go_back);
   }
 };
 </script>
