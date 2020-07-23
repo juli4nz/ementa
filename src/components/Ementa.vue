@@ -56,8 +56,8 @@ import bg_image_url from "@/assets/bg.png";
 export default {
   data: () => {
     return {
-      //api_url: "http://app.ementa.web/wp-json/wp/v2/ementas",
-      //lang_api_url: "http://app.ementa.web/wp-json/pll/v1/languages",
+      //api_url: "http://dev.ementa.info/main/wp-json/wp/v2/ementas",
+      //lang_api_url: "http://dev.ementa.info/main/wp-json/pll/v1/languages",
       api_url: "https://app.ementa.info/main/wp-json/wp/v2/ementas",
       lang_api_url: "https://app.ementa.info/main/wp-json/pll/v1/languages",
       post: {

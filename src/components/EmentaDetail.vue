@@ -38,6 +38,15 @@
             <div class="item_title">
               <h3>{{ plate.name }}</h3>
               <p>{{ plate.description }}</p>
+              <ul v-if="plate.allergens" class="allergens">
+                <li
+                  v-for="(allergen, index) in plate.allergens"
+                  :key="index + 'allergen'"
+                  class="allergen"
+                >
+                  <img :src="allergen.image.url" :alt="allergen.name" />
+                </li>
+              </ul>
             </div>
 
             <!-- Plate Prices -->
