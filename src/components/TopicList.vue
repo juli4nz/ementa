@@ -52,7 +52,7 @@ export default {
         switch (this.level) {
           case 0:
             this.$router.push({
-              name: "home_a",
+              name: "ementa_a",
               params: {
                 a_slug: this.slugs[index]
               }
@@ -60,7 +60,7 @@ export default {
             break;
           case 1:
             this.$router.push({
-              name: "home_b",
+              name: "ementa_b",
               params: {
                 a_slug: this.$route.params.a_slug,
                 b_slug: this.slugs[index]
@@ -69,7 +69,7 @@ export default {
             break;
           case 2:
             this.$router.push({
-              name: "home_c",
+              name: "ementa_c",
               params: {
                 a_slug: this.$route.params.a_slug,
                 b_slug: this.$route.params.b_slug,
@@ -82,7 +82,7 @@ export default {
         switch (this.level) {
           case 0:
             this.$router.push({
-              name: "home_a_detail",
+              name: "ementa_a_detail",
               params: {
                 a_slug: this.slugs[index],
                 detail: "detail"
@@ -91,7 +91,7 @@ export default {
             break;
           case 1:
             this.$router.push({
-              name: "home_b_detail",
+              name: "ementa_b_detail",
               params: {
                 a_slug: this.$route.params.a_slug,
                 b_slug: this.slugs[index],
@@ -101,7 +101,7 @@ export default {
             break;
           case 2:
             this.$router.push({
-              name: "home_c_detail",
+              name: "ementa_c_detail",
               params: {
                 a_slug: this.$route.params.a_slug,
                 b_slug: this.$route.params.b_slug,
@@ -117,7 +117,7 @@ export default {
       switch (this.level) {
         case 0:
           this.$router.push({
-            name: "home_a",
+            name: "ementa_a",
             params: {
               a_slug: this.catslugs[index]
             }
@@ -125,7 +125,7 @@ export default {
           break;
         case 1:
           this.$router.push({
-            name: "home_b_catalog",
+            name: "ementa_b_catalog",
             params: {
               a_slug: this.$route.params.a_slug,
               b_slug: this.catslugs[index],

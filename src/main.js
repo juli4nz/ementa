@@ -8,6 +8,7 @@ import VueGtag from 'vue-gtag';
 Vue.config.productionTip = false;
 Vue.component('v-select', vSelect);
 
+// Google Analytics
 Vue.use(
    VueGtag,
    {

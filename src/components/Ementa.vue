@@ -52,6 +52,7 @@
 import HeaderImage from "./HeaderImage.vue";
 import LanguageSwitcher from "./LanguageSwitcher.vue";
 import bg_image_url from "@/assets/bg.png";
+import axios from "axios";
 
 export default {
   data: () => {
@@ -90,10 +91,10 @@ export default {
         image: ""
       },
       languages: {
+        all: {},
         current: "",
         translations: []
       },
-      default_langs: {},
       styles: {
         header: {
           size: "",
@@ -127,27 +128,25 @@ export default {
     },
     fetch_data() {
       // Get List of Languages
-      let lang_req = new Request(this.lang_api_url);
-      fetch(lang_req)
+      axios
+        .get(this.lang_api_url)
         .then(resp => {
-          if (resp.status === 200) return resp.json();
-        })
-        .then(langs => {
+          let langs = resp.data;
           langs.forEach(lang => {
-            this.default_langs[lang.slug] = lang;
+            this.languages.all[lang.slug] = lang;
           });
+
+          console.log("Languages loaded");
         })
-        .catch(error => {
-          console.log(error);
+        .catch(err => {
+          console.log(err);
         });
 
       // Get Data
-      let req = new Request(this.api_url + "/" + this.$route.params.id);
-      fetch(req)
+      axios
+        .get(this.api_url + "/" + this.$route.params.id)
         .then(resp => {
-          if (resp.status === 200) return resp.json();
-        })
-        .then(data => {
+          let data = resp.data;
           let acf = data.acf;
 
           // Restaurant Info
@@ -196,31 +195,37 @@ export default {
 
           //current translation
           this.languages.current = {
-            locale: this.default_langs[data.lang].locale,
-            language_code: this.default_langs[data.lang].slug,
-            native_name: this.default_langs[data.lang].name,
-            country_flag_url: this.default_langs[data.lang].flag_url
+            locale: this.languages.all[data.lang].locale,
+            language_code: this.languages.all[data.lang].slug,
+            native_name: this.languages.all[data.lang].name,
+            country_flag_url: this.languages.all[data.lang].flag_url
           };
 
           //available translations
           Object.entries(data.translations).forEach(([key, val]) => {
             if (key !== this.languages.current.language_code) {
               this.languages.translations.push({
-                locale: this.default_langs[key].locale,
-                language_code: this.default_langs[key].slug,
-                native_name: this.default_langs[key].name,
-                country_flag_url: this.default_langs[key].flag_url,
+                locale: this.languages.all[key].locale,
+                language_code: this.languages.all[key].slug,
+                native_name: this.languages.all[key].name,
+                country_flag_url: this.languages.all[key].flag_url,
                 id: val
               });
             }
           });
 
-          // All loaded
           this.filter_data();
           this.loaded = true;
+          console.log("Data loaded");
         })
-        .catch(error => {
-          console.log(error);
+        .catch(err => {
+          console.log(err);
+          if (err.response.status === 404) {
+            this.$router.push({
+              name: "not_found",
+              params: { "0": "" }
+            });
+          }
         });
     },
     filter_data() {
@@ -352,7 +357,7 @@ export default {
     },
     set_language(id) {
       this.$router.push({
-        name: "home",
+        name: "ementa",
         params: {
           id: id,
           slug: this.post.slug
@@ -405,7 +410,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if (to.name === "home" && from.name === "home") {
+      if (to.name === "ementa" && from.name === "ementa") {
         this.loaded = false;
         this.reset();
         this.fetch_data();

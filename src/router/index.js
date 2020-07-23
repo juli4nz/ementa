@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Home from '@/components/Home.vue';
+import NotFound from '@/components/404.vue';
 import Ementa from '@/components/Ementa.vue';
 import EmentaTopics from '@/components/EmentaTopics.vue';
 import EmentaDetail from '@/components/EmentaDetail.vue';
@@ -11,48 +13,57 @@ Vue.use(VueRouter);
 const routes = [
    {
       path: '/',
-      redirect: '/ementa/905/omoinho',
+      name: 'home',
+      component: Home,
+      beforeEnter: () => {
+         window.location.href = 'https://ementa.info';
+      },
+   },
+   {
+      path: '*',
+      name: 'not_found',
+      component: NotFound,
    },
    {
       path: '/ementa/:id(\\d+)/:slug',
       component: Ementa,
       children: [
-         // Home
+         // Ementa
          {
             path: '/',
-            name: 'home',
+            name: 'ementa',
             component: EmentaTopics,
          },
          // Categories
          {
             path: ':a_slug',
-            name: 'home_a',
+            name: 'ementa_a',
             component: EmentaTopics,
          },
          {
             path: ':a_slug/:b_slug',
-            name: 'home_b',
+            name: 'ementa_b',
             component: EmentaTopics,
          },
          {
             path: ':a_slug/:b_slug/:c_slug',
-            name: 'home_c',
+            name: 'ementa_c',
             component: EmentaTopics,
          },
          // Details
          {
             path: ':a_slug/detail',
-            name: 'home_a_detail',
+            name: 'ementa_a_detail',
             component: EmentaDetail,
          },
          {
             path: ':a_slug/:b_slug/detail',
-            name: 'home_b_detail',
+            name: 'ementa_b_detail',
             component: EmentaDetail,
          },
          {
             path: ':a_slug/:b_slug/:c_slug/detail',
-            name: 'home_c_detail',
+            name: 'ementa_c_detail',
             component: EmentaDetail,
          },
          // Chef
@@ -64,17 +75,17 @@ const routes = [
          // Catalog
          {
             path: ':a_slug/catalog',
-            name: 'home_a_catalog',
+            name: 'ementa_a_catalog',
             component: EmentaCatalog,
          },
          {
             path: ':a_slug/:b_slug/catalog',
-            name: 'home_b_catalog',
+            name: 'ementa_b_catalog',
             component: EmentaCatalog,
          },
          {
             path: ':a_slug/:b_slug/:c_slug/catalog',
-            name: 'home_c_catalog',
+            name: 'ementa_c_catalog',
             component: EmentaCatalog,
          },
       ],
