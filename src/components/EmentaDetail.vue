@@ -22,7 +22,7 @@
         <div v-if="topics.single.content.plates">
           <!-- Plates -->
           <div
-            v-for="(plate, index) in topics.single.content.plates"
+            v-for="(plate, index) in visible_plates"
             :key="index + 'plate'"
             class="item_container"
             @click="display_modal(plate)"
@@ -52,7 +52,7 @@
         <div v-else>
           <!-- Drinks -->
           <div
-            v-for="(drink, index) in topics.single.content.drinks"
+            v-for="(drink, index) in visible_drinks"
             :key="index + 'drink'"
             class="item_container"
             @click="display_modal(drink)"
@@ -66,8 +66,18 @@
 
             <!-- Drink Title -->
             <div class="item_title">
-              <h3>{{ drink.name }}</h3>
-              <p>{{ drink.description }}</p>
+              <h3 v-html="drink.name"></h3>
+              <p v-if="drink.description">{{ drink.description }}</p>
+              <!-- Allergens Icons -->
+              <ul class="item_allergens" v-if="has_allergens(drink.allergens)">
+                <li
+                  v-for="(allergen, index) in drink.allergens"
+                  :key="index + 'allergen'"
+                  class="allergen"
+                >
+                  <span :class="'icon-' + allergen.value"></span>
+                </li>
+              </ul>
             </div>
 
             <!-- Drink Prices -->
@@ -83,7 +93,13 @@
       <!-- END List -->
     </div>
     <modal v-if="show_modal" @close="show_modal = false" class="item_modal">
-      <img slot="header_image" :src="item.image.url" :alt="item.name" class="modal_image" />
+      <img
+        v-if="item.image"
+        slot="header_image"
+        :src="item.image.url"
+        :alt="item.name"
+        class="modal_image"
+      />
       <h3 slot="title" class="modal_title">{{ item.name }}</h3>
       <ul class="modal_prices" slot="body">
         <li v-for="(price, index) in item.prices" :key="index + 'price'">
@@ -91,7 +107,14 @@
           <span v-if="price.price !== ''" class="price_symbol">€</span>
         </li>
       </ul>
-      <p slot="body">{{ item.description }}</p>
+      <p v-if="item.description" slot="body">{{ item.description }}</p>
+      <!-- Allergens Icons -->
+      <ul slot="body" class="item_allergens" v-if="has_allergens(item.allergens)">
+        <li v-for="(allergen, index) in item.allergens" :key="index + 'allergen'" class="allergen">
+          <span :class="'icon-' + allergen.value"></span>
+          <span class="allergen_name">{{allergen.label}}</span>
+        </li>
+      </ul>
     </modal>
   </div>
 </template>
@@ -111,12 +134,11 @@ export default {
   },
   methods: {
     display_modal(item) {
-      if (item.image) {
-        this.show_modal = true;
-        this.item = item;
-      } else {
-        return null;
-      }
+      this.show_modal = true;
+      this.item = item;
+    },
+    has_allergens(item) {
+      return Array.isArray(item) && item.length;
     }
   },
   computed: {
@@ -128,6 +150,16 @@ export default {
         }
       }
       return false;
+    },
+    visible_plates() {
+      return this.topics.single.content.plates.filter(function(p) {
+        return p.visible;
+      });
+    },
+    visible_drinks() {
+      return this.topics.single.content.drinks.filter(function(d) {
+        return d.visible;
+      });
     }
   },
   created() {
@@ -195,6 +227,15 @@ $item_image_pr: 10px;
           font-size: 0.85rem;
         }
       }
+      .item_allergens {
+        margin: 5px 0;
+        display: flex;
+        flex-wrap: wrap;
+        .allergen {
+          margin-right: 5px;
+          font-size: 22px;
+        }
+      }
       .item_prices {
         flex: 0 0 40%;
         display: flex;
@@ -258,6 +299,19 @@ $item_image_pr: 10px;
       .price_symbol {
         font-size: 0.8rem;
         margin-left: 3px;
+      }
+    }
+  }
+  .item_allergens {
+    margin: 15px 0 5px;
+    display: flex;
+    flex-wrap: wrap;
+    .allergen {
+      margin-right: 15px;
+      font-size: 22px;
+      .allergen_name {
+        margin-left: 5px;
+        font-size: 16px;
       }
     }
   }

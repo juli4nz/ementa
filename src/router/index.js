@@ -15,9 +15,9 @@ const routes = [
       path: '/',
       name: 'home',
       component: Home,
-      beforeEnter: () => {
+      /*beforeEnter: () => {
          window.location.href = 'https://ementa.info';
-      },
+      },*/
    },
    {
       path: '*',

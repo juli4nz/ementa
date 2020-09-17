@@ -12,9 +12,9 @@
             </div>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body" :class="has_image">
             <div class="modal-body-title">
-              <slot name="title">default header</slot>
+              <slot name="title"></slot>
             </div>
             <slot name="body"></slot>
           </div>
@@ -29,7 +29,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    has_image() {
+      return { no_image: !this.$slots.header_image };
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -71,6 +77,9 @@ export default {};
 .modal-body {
   padding: 15px;
   margin-bottom: 5px;
+  &.no_image {
+    margin-top: 45px;
+  }
 }
 
 .modal-close {

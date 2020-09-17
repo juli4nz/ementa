@@ -14,13 +14,17 @@ export default {};
 @import url("https://use.fontawesome.com/releases/v5.8.2/css/all.css");
 @import url("https://fonts.googleapis.com/css?family=Prata:400");
 @import url("https://fonts.googleapis.com/css?family=Rubik:300,500");
-
+@import url("./assets/fonts/allergens/allergens.css");
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  padding: 0;
+}
+
+ul {
   padding: 0;
 }
 

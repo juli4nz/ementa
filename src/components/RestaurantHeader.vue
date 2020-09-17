@@ -1,7 +1,7 @@
 <template>
   <div class="section_info">
-    <p class="title">{{ info.title }}</p>
-    <h1>{{ info.name }}</h1>
+    <p class="title" v-html="info.title"></p>
+    <h1 v-html="info.name"></h1>
     <p class="location">{{ info.location }}</p>
   </div>
 </template>
@@ -11,6 +11,11 @@ export default {
   props: ["info"],
   data: () => {
     return {};
+  },
+  methods:{
+    htmlToText(html){
+      return html.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+    }
   }
 };
 </script>

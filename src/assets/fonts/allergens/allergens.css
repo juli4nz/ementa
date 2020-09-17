@@ -1,0 +1,81 @@
+@font-face {
+   font-family: 'allergens';
+   src: url('allergens.eot?cxspew'), url('allergens.eot?cxspew#iefix') format('embedded-opentype'), url('allergens.ttf?cxspew') format('truetype'),
+      url('allergens.woff?cxspew') format('woff'), url('allergens.svg?cxspew#allergens') format('svg');
+   font-style: normal;
+   font-weight: normal;
+   font-display: block;
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+   /* use !important to prevent issues with browser extensions that change fonts */
+   font-family: 'allergens' !important;
+   speak: never;
+   font-style: normal;
+   font-weight: normal;
+   font-variant: normal;
+   text-transform: none;
+   line-height: 1;
+
+   /* Better Font Rendering =========== */
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-aipo:before {
+   content: '\e900';
+   color: #89b255;
+}
+.icon-amendoim:before {
+   content: '\e901';
+   color: #b27d45;
+}
+.icon-crustaceos:before {
+   content: '\e902';
+   color: #a3552b;
+}
+.icon-frutos_secos:before {
+   content: '\e903';
+   color: #7e4117;
+}
+.icon-gluten:before {
+   content: '\e904';
+   color: #d07940;
+}
+.icon-lacteos:before {
+   content: '\e905';
+   color: #57235e;
+}
+.icon-moluscos:before {
+   content: '\e906';
+   color: #68686a;
+}
+.icon-mostarda:before {
+   content: '\e907';
+   color: #eabe41;
+}
+.icon-ovo:before {
+   content: '\e908';
+   color: #c8be91;
+}
+.icon-peixe:before {
+   content: '\e909';
+   color: #0076b1;
+}
+.icon-sesamo:before {
+   content: '\e90a';
+   color: #ba9854;
+}
+.icon-soja:before {
+   content: '\e90b';
+   color: #6d7d41;
+}
+.icon-sulfitos:before {
+   content: '\e90c';
+   color: #863089;
+}
+.icon-tremocos:before {
+   content: '\e90d';
+   color: #b68417;
+}
