@@ -151,6 +151,78 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mobile {
+  &.landscape {
+    .section_list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      article {
+        height: calc(100vw * 0.25);
+      }
+    }
+  }
+}
+.tablet {
+  &.landscape {
+    .section_list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      article {
+        height: calc(100vw * 0.2);
+      }
+    }
+  }
+  &.portrait {
+    .section_list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      article {
+        height: calc(100vw * 0.25);
+      }
+    }
+  }
+}
+.laptop {
+  &.landscape {
+    .section_list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      article {
+        height: calc(100vw * 0.18);
+      }
+    }
+  }
+  &.portrait {
+    .section_list {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      article {
+        height: calc(100vw * 0.18);
+      }
+    }
+  }
+}
+.desktop {
+  &.landscape {
+    .section_list {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      article {
+        height: calc(100vw * 0.11);
+      }
+    }
+  }
+  &.portrait {
+    .section_list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      article {
+        height: calc(100vw * 0.15);
+      }
+    }
+  }
+}
+
 .section_list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

@@ -23,6 +23,17 @@ export default {
       if (scroll_pos < 0) return;
 
       this.opacity = opacity;
+    },
+    handle_resize() {
+      if (
+        ((this.$mqAliases["tablet"] || this.$mqAliases["laptop"]) &&
+          this.$mqAliases["landscape"]) ||
+        this.$mqAliases["desktop"]
+      ) {
+        window.removeEventListener("scroll", this.handle_scroll);
+      } else {
+        window.addEventListener("scroll", this.handle_scroll);
+      }
     }
   },
   computed: {
@@ -39,15 +50,57 @@ export default {
     }
   },
   created() {
-    window.addEventListener("scroll", this.handle_scroll);
+    this.handle_scroll();
+    window.addEventListener("resize", this.handle_resize);
   },
   destroyed() {
+    window.removeEventListener("resize", this.handle_resize);
     window.removeEventListener("scroll", this.handle_scroll);
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.tablet.landscape,
+.laptop.landscape,
+.desktop.portrait {
+  .section_image {
+    height: 100vh !important;
+    width: 29%;
+    .header_image {
+      .fx {
+        right: 0px;
+        left: auto;
+        width: 35px;
+        height: 100vh;
+        background: linear-gradient(
+          270deg,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+    }
+  }
+}
+.desktop.landscape {
+  .section_image {
+    height: 100vh !important;
+    width: 42%;
+    .header_image {
+      .fx {
+        right: 0px;
+        left: auto;
+        width: 35px;
+        height: 100vh;
+        background: linear-gradient(
+          270deg,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+    }
+  }
+}
 .section_image {
   position: fixed;
   height: 200px;

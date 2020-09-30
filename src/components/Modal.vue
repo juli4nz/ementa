@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div class="modal-mask">
+    <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
@@ -39,6 +39,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.landscape {
+  &.mobile {
+    .modal-container {
+      width: calc(100% - 350px);
+    }
+  }
+  &.tablet {
+    .modal-container {
+      width: calc(100% - 500px);
+    }
+  }
+  &.laptop {
+    .modal-container {
+      width: calc(100% - 650px);
+    }
+  }
+  &.desktop {
+    .modal-container {
+      width: calc(100% - 50%);
+    }
+  }
+}
+.portrait {
+  &.mobile {
+    .modal-container {
+      width: calc(100% - 100px);
+    }
+  }
+  &.tablet {
+    .modal-container {
+      width: calc(100% - 300px);
+    }
+  }
+  &.laptop {
+    .modal-container {
+      width: calc(100% - 400px);
+    }
+  }
+  &.desktop {
+    .modal-container {
+      width: calc(100% - 600px);
+    }
+  }
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -57,7 +102,7 @@ export default {
 }
 
 .modal-container {
-  width: calc(100% - 80px);
+  width: calc(100% - 100px);
   margin: 0px auto;
   padding: 0;
   background-color: #fff;

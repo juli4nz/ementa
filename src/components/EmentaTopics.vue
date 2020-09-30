@@ -12,7 +12,11 @@
       :catalog="catalog.list"
       :catslugs="catalog.slugs"
     />
-    <div v-if="!is_home && notes !== ''" v-html="notes" class="section_notes"></div>
+    <div
+      v-if="!is_home && notes !== ''"
+      v-html="notes"
+      class="section_notes"
+    ></div>
   </div>
 </template>
 
@@ -39,7 +43,7 @@ export default {
   },
   created() {
     this.$emit("update");
-    let size = { height: 200 };
+    let size = { height: 180 };
     this.$emit("resize", size);
   }
 };

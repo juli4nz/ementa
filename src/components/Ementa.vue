@@ -135,8 +135,6 @@ export default {
           langs.forEach(lang => {
             this.languages.all[lang.slug] = lang;
           });
-
-          console.log("Languages loaded");
         })
         .catch(err => {
           console.log(err);
@@ -216,7 +214,6 @@ export default {
 
           this.filter_data();
           this.loaded = true;
-          console.log("Data loaded");
         })
         .catch(err => {
           console.log(err);
@@ -349,7 +346,7 @@ export default {
       this.styles.header.size = size;
       this.styles.content = { marginTop: `${size.height - 40}px` };
       this.styles.body = {
-        minHeight: `calc(100vh - ${size.height - 40 + 20}px)`
+        minHeight: `calc(100vh - ${size.height}px)`
       };
     },
     set_header_style(image) {
@@ -425,6 +422,39 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.tablet.landscape,
+.laptop.landscape,
+.desktop.portrait {
+  .wrapper {
+    .section_content {
+      margin-top: 0 !important;
+      .body {
+        position: relative;
+        width: 75%;
+        min-height: calc(100vh - 20px) !important;
+        float: right;
+      }
+    }
+  }
+}
+.desktop.landscape {
+  .wrapper {
+    .section_content {
+      margin-top: 0 !important;
+      .body {
+        position: relative;
+        width: 60%;
+        min-height: calc(100vh - 20px) !important;
+        float: right;
+      }
+    }
+  }
+}
+.laptop.portrait {
+  .wrapper {
+    padding: 20px;
+  }
+}
 .wrapper {
   padding: 10px;
   font-size: 1rem;

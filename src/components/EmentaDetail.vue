@@ -30,20 +30,43 @@
             <!-- Plate Image -->
             <div class="item_image" v-if="plate.image">
               <div class="image_wrapper">
-                <img :src="plate.image.url" :alt="plate.name" class="image_content" />
+                <img
+                  :src="plate.image.url"
+                  :alt="plate.name"
+                  class="image_content"
+                />
               </div>
             </div>
 
             <!-- Plate Title -->
             <div class="item_title">
-              <h3>{{ plate.name }}</h3>
-              <p>{{ plate.description }}</p>
+              <h3 v-html="plate.name"></h3>
+              <p v-if="plate.description">{{ plate.description }}</p>
+              <!-- Allergens Icons -->
+              <ul class="item_allergens" v-if="has_allergens(plate.allergens)">
+                <li
+                  v-for="(allergen, index) in plate.allergens"
+                  :key="index + 'allergen'"
+                  class="allergen"
+                >
+                  <span :class="'icon-' + allergen.value"></span>
+                </li>
+              </ul>
             </div>
 
             <!-- Plate Prices -->
-            <ul class="item_prices" :class="{ single: !has_measures && plate.prices.length == 1 }">
-              <li v-for="(price, index) in plate.prices" :key="index + 'price'" class="price">
-                <span v-if="price.price !== ''">{{ Number(price.price).toFixed(2) }}</span>
+            <ul
+              class="item_prices"
+              :class="{ single: !has_measures && plate.prices.length == 1 }"
+            >
+              <li
+                v-for="(price, index) in plate.prices"
+                :key="index + 'price'"
+                class="price"
+              >
+                <span v-if="price.price !== ''">{{
+                  Number(price.price).toFixed(2)
+                }}</span>
                 <span v-if="price.price !== ''" class="price_symbol">€</span>
               </li>
             </ul>
@@ -60,7 +83,11 @@
             <!-- Drink Image -->
             <div class="item_image" v-if="drink.image">
               <div class="image_wrapper">
-                <img :src="drink.image.url" :alt="drink.name" class="image_content" />
+                <img
+                  :src="drink.image.url"
+                  :alt="drink.name"
+                  class="image_content"
+                />
               </div>
             </div>
 
@@ -81,9 +108,18 @@
             </div>
 
             <!-- Drink Prices -->
-            <ul class="item_prices" :class="{ single: !has_measures && drink.prices.length == 1 }">
-              <li v-for="(price, index) in drink.prices" :key="index + 'price'" class="price">
-                <span v-if="price.price !== ''">{{ Number(price.price).toFixed(2) }}</span>
+            <ul
+              class="item_prices"
+              :class="{ single: !has_measures && drink.prices.length == 1 }"
+            >
+              <li
+                v-for="(price, index) in drink.prices"
+                :key="index + 'price'"
+                class="price"
+              >
+                <span v-if="price.price !== ''">{{
+                  Number(price.price).toFixed(2)
+                }}</span>
                 <span v-if="price.price !== ''" class="price_symbol">€</span>
               </li>
             </ul>
@@ -92,6 +128,7 @@
       </div>
       <!-- END List -->
     </div>
+    <!-- Modal -->
     <modal v-if="show_modal" @close="show_modal = false" class="item_modal">
       <img
         v-if="item.image"
@@ -103,16 +140,26 @@
       <h3 slot="title" class="modal_title">{{ item.name }}</h3>
       <ul class="modal_prices" slot="body">
         <li v-for="(price, index) in item.prices" :key="index + 'price'">
-          <span v-if="price.price !== ''">{{ Number(price.price).toFixed(2) }}</span>
+          <span v-if="price.price !== ''">{{
+            Number(price.price).toFixed(2)
+          }}</span>
           <span v-if="price.price !== ''" class="price_symbol">€</span>
         </li>
       </ul>
       <p v-if="item.description" slot="body">{{ item.description }}</p>
       <!-- Allergens Icons -->
-      <ul slot="body" class="item_allergens" v-if="has_allergens(item.allergens)">
-        <li v-for="(allergen, index) in item.allergens" :key="index + 'allergen'" class="allergen">
+      <ul
+        slot="body"
+        class="item_allergens"
+        v-if="has_allergens(item.allergens)"
+      >
+        <li
+          v-for="(allergen, index) in item.allergens"
+          :key="index + 'allergen'"
+          class="allergen"
+        >
           <span :class="'icon-' + allergen.value"></span>
-          <span class="allergen_name">{{allergen.label}}</span>
+          <span class="allergen_name">{{ allergen.label }}</span>
         </li>
       </ul>
     </modal>
@@ -134,8 +181,10 @@ export default {
   },
   methods: {
     display_modal(item) {
-      this.show_modal = true;
-      this.item = item;
+      if (item.image.url || this.has_allergens(item)) {
+        this.show_modal = true;
+        this.item = item;
+      }
     },
     has_allergens(item) {
       return Array.isArray(item) && item.length;
@@ -164,7 +213,7 @@ export default {
   },
   created() {
     this.$emit("update");
-    let size = { height: 200 };
+    let size = { height: 180 };
     this.$emit("resize", size);
   }
 };
@@ -280,9 +329,16 @@ $item_image_pr: 10px;
 .item_modal {
   .modal_image {
     width: 100%;
-    height: 200px;
+    //height: 200px;
     object-fit: cover;
+
+    &:after {
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+    }
   }
+
   .modal_title {
     margin-top: 0;
     color: rgb(99, 100, 68);
